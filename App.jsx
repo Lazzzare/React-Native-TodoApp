@@ -6,6 +6,8 @@ import {
   Button,
   TouchableOpacity,
   Modal,
+  Pressable,
+  FlatList,
 } from "react-native";
 import { useState } from "react";
 
@@ -18,6 +20,7 @@ export default function App() {
     if (value.length > 0) {
       setTodos([...todos, { id: todos.length + 1, title: value }]);
       setValue("");
+      setModalVisible(false);
     } else {
       alert("its empty bro");
     }
@@ -31,24 +34,41 @@ export default function App() {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.title}>TodoApp</Text>
-      <TextInput
-        onChangeText={(text) => setValue(text)}
-        value={value}
-        style={styles.input}
-        placeholder="Enter todo"
-      />
-      <View style={{ alignItems: "center" }}>
-        <Button onPress={addTodoHandler} title="Add Todo" />
-      </View>
+      <Button title="Add new todo" onPress={() => setModalVisible(true)} />
+      <Modal visible={modalVisible} animationType="slide">
+        <TextInput
+          onChangeText={(text) => setValue(text)}
+          value={value}
+          style={styles.input}
+          placeholder="Enter todo"
+        />
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 20,
+            justifyContent: "center",
+          }}
+        >
+          <Button onPress={addTodoHandler} title="Add Todo" />
+          <Button title="Cancel" onPress={() => setModalVisible(false)} />
+        </View>
+      </Modal>
       <View style={{ gap: 10, marginTop: 20 }}>
-        {todos.map((todo) => (
-          <View style={styles.todoContainer}>
-            <Text key={todo.id}>{todo.title}</Text>
-            <TouchableOpacity onPress={() => deleteTodoHandler(todo.id)}>
-              <Text style={styles.deleteButton}>X</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+        <FlatList
+          data={todos}
+          renderItem={(todo) => (
+            <View style={styles.todoContainer}>
+              <Text key={todo.item.id}>{todo.item.title}</Text>
+              <Pressable
+                android_ripple={{ color: "#ccc" }}
+                onPress={() => deleteTodoHandler(todo.item.id)}
+              >
+                <Text style={styles.deleteButton}>X</Text>
+              </Pressable>
+            </View>
+          )}
+        />
       </View>
     </View>
   );
@@ -64,7 +84,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
     borderWidth: 1,
     padding: 15,
