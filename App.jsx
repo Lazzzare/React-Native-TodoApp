@@ -31,15 +31,15 @@ export default function App() {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.title}>TodoApp</Text>
-      <Modal>
-        <TextInput
-          onChangeText={(text) => setValue(text)}
-          value={value}
-          style={styles.input}
-          placeholder="Enter todo"
-        />
-      </Modal>
-      <Button onPress={addTodoHandler} title="Add Todo" />
+      <TextInput
+        onChangeText={(text) => setValue(text)}
+        value={value}
+        style={styles.input}
+        placeholder="Enter todo"
+      />
+      <View style={{ alignItems: "center" }}>
+        <Button onPress={addTodoHandler} title="Add Todo" />
+      </View>
       <View style={{ gap: 10, marginTop: 20 }}>
         {todos.map((todo) => (
           <View style={styles.todoContainer}>
@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     padding: 8,
-    justifyContent: "center",
-    alignItems: "center",
   },
   title: {
     fontSize: 40,
@@ -74,7 +72,6 @@ const styles = StyleSheet.create({
   },
   todoContainer: {
     flexDirection: "row",
-    width: "70%",
     borderWidth: 1,
     paddingHorizontal: 20,
     paddingVertical: 10,
