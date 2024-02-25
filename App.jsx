@@ -48,7 +48,11 @@ export default function App() {
         value={value}
       />
       {/* AllTodos */}
-      <Todos todos={todos} deleteTodoHandler={deleteTodoHandler} />
+      <Todos
+        todos={todos}
+        deleteTodoHandler={deleteTodoHandler}
+        darkMode={darkMode}
+      />
       {/* DarkMode */}
       <DarkLightMode darkMode={darkMode} setDarkMode={setDarkMode} />
     </SafeAreaView>

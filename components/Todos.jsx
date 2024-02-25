@@ -1,20 +1,54 @@
-import React from "react";
-import { FlatList, View, Text, Pressable, StyleSheet } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Platform,
+} from "react-native";
 
-const Todos = ({ todos, deleteTodoHandler }) => {
+const Todos = ({ todos, deleteTodoHandler, darkMode }) => {
   return (
-    <View style={{ gap: 10, marginTop: 20 }}>
+    <View
+      style={{
+        gap: 10,
+        marginTop: 20,
+        flex: 1,
+        width: "100%",
+      }}
+    >
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={(todo) => (
-          <View style={styles.todoContainer}>
-            <Text>{todo.item.title}</Text>
+          <View
+            style={[
+              styles.todoContainer,
+              {
+                borderColor: darkMode ? "white" : "black",
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.todoTitle,
+                { color: darkMode ? "white" : "#1a171c" },
+              ]}
+            >
+              {todo.item.title}
+            </Text>
             <Pressable
               android_ripple={{ color: "#ccc" }}
               onPress={() => deleteTodoHandler(todo.item.id)}
             >
-              <Text style={styles.deleteButton}>X</Text>
+              <Text
+                style={[
+                  styles.deleteButton,
+                  { color: darkMode ? "white" : "black" },
+                ]}
+              >
+                X
+              </Text>
             </Pressable>
           </View>
         )}
@@ -27,6 +61,8 @@ export default Todos;
 
 const styles = StyleSheet.create({
   todoContainer: {
+    flex: 1,
+    margin: "auto",
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
@@ -37,5 +73,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "space-between",
     marginBottom: 10,
+  },
+  todoTitle: {
+    fontSize: 20,
   },
 });
